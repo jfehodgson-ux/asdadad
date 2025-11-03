@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datos de Seguimiento</title>
+  <link rel="stylesheet" href="../css/form-seguimiento.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Seguimiento</h1>
+
+    <form id="formSeguimiento" onsubmit="return validarFormulario(event)">
+      <div class="form-group">
+        <label for="profesional">Profesional asignado:</label>
+        <input type="text" id="profesional" required>
+      </div>
+
+      <div class="form-group">
+        <label for="diagnostico">Diagnóstico inicial:</label>
+        <div class="tag-container" id="listaDiagnostico"></div>
+        <input type="text" id="diagnostico" placeholder="Escribe un diagnóstico y presiona Enter">
+      </div>
+
+      <div class="form-group">
+        <label for="tratamiento">Tratamiento / indicaciones:</label>
+        <div class="tag-container" id="listaTratamiento"></div>
+        <input type="text" id="tratamiento" placeholder="Escribe una indicación y presiona Enter">
+      </div>
+
+      <div class="form-group">
+        <label for="examenes">Exámenes solicitados:</label>
+        <div class="tag-container" id="listaExamenes"></div>
+        <input type="text" id="examenes" placeholder="Escribe un examen y presiona Enter">
+      </div>
+
+      <button type="submit" class="btn-guardar">Guardar</button>
+    </form>
+  </div>
+
+  <script>
+    // 🔹 Crea listas dinámicas (tags)
+    function crearListaDinamica(inputId, listaId) {
+      const input = document.getElementById(inputId);
+      const lista = document.getElementById(listaId);
+
+      input.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' && input.value.trim() !== '') {
+          event.preventDefault();
+          const valor = input.value.trim();
+
+          // Crear etiqueta visual
+          const tag = document.createElement('div');
+          tag.className = 'tag';
+          tag.textContent = valor;
+
+          // Botón eliminar
+          const close = document.createElement('span');
+          close.textContent = '×';
+          close.className = 'close';
+          close.onclick = () => tag.remove();
+
+          tag.appendChild(close);
+          lista.appendChild(tag);
+
+          input.value = '';
+        }
+      });
+    }
+
+    // Aplicar listas dinámicas a los campos correspondientes
+    crearListaDinamica('diagnostico', 'listaDiagnostico');
+    crearListaDinamica('tratamiento', 'listaTratamiento');
+    crearListaDinamica('examenes', 'listaExamenes');
+
+    // 🔹 Validación del formulario
+    function validarFormulario(event) {
+      event.preventDefault();
+
+      const profesional = document.getElementById('profesional').value.trim();
+      const diagnosticos = document.querySelectorAll('#listaDiagnostico .tag').length;
+      const tratamientos = document.querySelectorAll('#listaTratamiento .tag').length;
+      const examenes = document.querySelectorAll('#listaExamenes .tag').length;
+
+      if (!profesional) {
+        alert("⚠️ Por favor completa el campo 'Profesional asignado'.");
+        return false;
+      }
+
+      if (diagnosticos === 0 || tratamientos === 0 || examenes === 0) {
+        alert("⚠️ Debes agregar al menos un elemento en cada apartado (diagnóstico, tratamiento y exámenes).");
+        return false;
+      }
+
+      alert("✅ Datos de seguimiento guardados correctamente.");
+      document.getElementById('formSeguimiento').reset();
+      document.querySelectorAll('.tag-container').forEach(div => div.innerHTML = '');
+    }
+  </script>
+</body>
+</html>

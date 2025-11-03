@@ -1,0 +1,164 @@
+:root {
+    --bg: #f4f8f4;
+    --card: #ffffff;
+    --primary: #fa00bb;
+    --muted: #666;
+}
+
+/* Fondo con ondas */
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    position: relative;
+    height: 100vh;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, var(--primary) 0%, #4da3ff 100%);
+    clip-path: ellipse(120% 100% at 50% 0%);
+    z-index: 0;
+}
+
+/* Contenedor principal */
+.wrap {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Tarjeta */
+.card {
+    width: 340px;
+    background: var(--card);
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    padding: 22px;
+    text-align: center;
+}
+
+/* Imagen superior */
+.header-img {
+    display: block;
+    margin: 0 auto 14px auto;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Título */
+h1 {
+    margin: 0 0 18px 0;
+    font-size: 20px;
+    color: #222;
+}
+
+/* Filas del formulario */
+.row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.row label {
+    width: 95px;
+    font-size: 14px;
+    color: var(--muted);
+    padding-right: 8px;
+    text-align: left;
+}
+
+.row input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid #d0d6db;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+}
+
+.row input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(11,116,255,0.08);
+}
+
+/* Botones */
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #fff;
+}
+
+.btn-secondary {
+    background: #e9ecef;
+    color: #222;
+}
+
+/* Imagen grande en la parte superior */
+.top-image {
+    position: absolute;
+    top: 40px; /* baja un poco la imagen para que se vea centrada sobre la onda */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+}
+
+.banner-img {
+    width: 360px; /* aprox mismo tamaño del card, podés ajustar */
+    max-width: 90%;
+    height: auto;
+    border-radius: 12px;
+/* #box-shadow: 0 6px 18px rgba(0,0,0,0.15); */
+    object-fit: cover;
+}
+
+.whatsapp-float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25D366;
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 28px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  z-index: 100;
+  transition: transform 0.2s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  background-color: #20b358;
+}
+
+.whatsapp-float i {
+  margin-top: 16px;
+}

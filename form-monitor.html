@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datos de Monitoreo</title>
+  <link rel="stylesheet" href="../css/form-monitoreo.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Datos de Monitoreo</h1>
+
+    <form id="formMonitoreo" onsubmit="return validarFormulario(event)">
+      <!-- Enfermedades crónicas -->
+      <div class="form-group">
+        <label for="enfermedades">Enfermedades crónicas:</label>
+        <input type="checkbox" id="noEnfermedades" onchange="toggleEnfermedades()">
+        <label for="noEnfermedades" class="inline">No</label>
+
+        <div id="enfermedadesSection">
+          <div class="tag-container" id="listaEnfermedades"></div>
+          <input type="text" id="enfermedades" placeholder="Escribe una enfermedad y presiona Enter">
+        </div>
+      </div>
+
+      <!-- Medicamentos -->
+      <div class="form-group">
+        <label for="medicamentos">Medicamentos actuales:</label>
+        <div class="tag-container" id="listaMedicamentos"></div>
+        <input type="text" id="medicamentos" placeholder="Escribe un medicamento y presiona Enter">
+      </div>
+
+      <!-- Malestar -->
+      <div class="form-group">
+        <label for="malestar">Malestar o razón:</label>
+        <div class="tag-container" id="listaMalestar"></div>
+        <input type="text" id="malestar" placeholder="Escribe un malestar o razón y presiona Enter">
+      </div>
+
+      <!-- Presión -->
+      <div class="form-group">
+        <label for="presion">Presión (mmHg):</label>
+        <input type="number" id="presion" min="0" required>
+      </div>
+
+      <!-- Temperatura -->
+      <div class="form-group">
+        <label for="temperatura">Temperatura (°C):</label>
+        <input type="number" id="temperatura" min="0" step="0.1" required>
+      </div>
+
+      <!-- Estatura -->
+      <div class="form-group">
+        <label for="estatura">Estatura (cm):</label>
+        <input type="number" id="estatura" min="0" required>
+      </div>
+
+      <!-- Peso -->
+      <div class="form-group">
+        <label for="peso">Peso (lb):</label>
+        <input type="number" id="peso" min="0" required>
+      </div>
+
+      <!-- Tipo de sangre -->
+      <div class="form-group">
+        <label>Tipo de sangre:</label>
+        <div class="radio-group">
+          <label><input type="radio" name="sangre" value="A+" required> A+</label>
+          <label><input type="radio" name="sangre" value="A-"> A-</label>
+          <label><input type="radio" name="sangre" value="B+"> B+</label>
+          <label><input type="radio" name="sangre" value="B-"> B-</label>
+          <label><input type="radio" name="sangre" value="AB+"> AB+</label>
+          <label><input type="radio" name="sangre" value="AB-"> AB-</label>
+          <label><input type="radio" name="sangre" value="O+"> O+</label>
+          <label><input type="radio" name="sangre" value="O-"> O-</label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-guardar">Guardar</button>
+    </form>
+  </div>
+
+  <script>
+    // 🔹 Función para crear listas dinámicas (tags)
+    function crearListaDinamica(inputId, listaId) {
+      const input = document.getElementById(inputId);
+      const lista = document.getElementById(listaId);
+
+      input.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' && input.value.trim() !== '') {
+          event.preventDefault();
+          const valor = input.value.trim();
+
+          // Crear etiqueta
+          const tag = document.createElement('div');
+          tag.className = 'tag';
+          tag.textContent = valor;
+
+          // Botón eliminar
+          const close = document.createElement('span');
+          close.textContent = '×';
+          close.className = 'close';
+          close.onclick = () => tag.remove();
+
+          tag.appendChild(close);
+          lista.appendChild(tag);
+
+          input.value = '';
+        }
+      });
+    }
+
+    // Aplicar listas dinámicas
+    crearListaDinamica('enfermedades', 'listaEnfermedades');
+    crearListaDinamica('medicamentos', 'listaMedicamentos');
+    crearListaDinamica('malestar', 'listaMalestar');
+
+    // 🔹 Bloquear enfermedades si se marca "No"
+    function toggleEnfermedades() {
+      const checkbox = document.getElementById('noEnfermedades');
+      const section = document.getElementById('enfermedadesSection');
+      const input = document.getElementById('enfermedades');
+
+      if (checkbox.checked) {
+        section.style.opacity = '0.5';
+        input.disabled = true;
+        section.querySelectorAll('.tag').forEach(tag => tag.remove());
+      } else {
+        section.style.opacity = '1';
+        input.disabled = false;
+      }
+    }
+
+    // 🔹 Validar formulario completo
+    function validarFormulario(event) {
+      event.preventDefault();
+      const inputs = document.querySelectorAll("#formMonitoreo input[required]");
+      let valido = true;
+
+      inputs.forEach(input => {
+        if (!input.disabled && !input.value.trim()) valido = false;
+      });
+
+      if (valido) {
+        alert("✅ Datos de monitoreo guardados correctamente");
+        document.getElementById("formMonitoreo").reset();
+        document.querySelectorAll('.tag-container').forEach(div => div.innerHTML = '');
+      } else {
+        alert("⚠️ Por favor completa todos los campos requeridos.");
+      }
+    }
+  </script>
+</body>
+</html>

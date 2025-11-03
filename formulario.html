@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seleccionar formulario</title>
+  <link rel="stylesheet" href="/css/menuformstyle.css">
+
+</head>
+<body>
+  <div class="menu-card">
+    <h1>Selecciona un formulario</h1>
+
+    <select id="formSelect">
+      <option value="" disabled selected>-- Elegir formulario --</option>
+      <option value="form-general.html">Datos Generales del Paciente</option>
+      <option value="form-monitor.html">Datos de Monitoreo</option>
+      <option value="form-tracking.html">Datos de Seguimiento</option>
+      <option value="form-diagnosis.html">Datos de Diagnostico</option>
+    </select>
+
+    <button onclick="abrirFormulario()">Abrir</button>
+  </div>
+
+  <script>
+    function abrirFormulario() {
+      const seleccionado = document.getElementById('formSelect').value;
+      if (seleccionado) {
+        window.location.href = seleccionado; // Redirige al formulario elegido
+      } else {
+        alert('Por favor, selecciona un formulario.');
+      }
+    }
+  </script>
+</body>
+</html>

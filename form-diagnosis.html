@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datos de Diagnóstico</title>
+  <link rel="stylesheet" href="../css/form-diagnostico.css">
+
+  <!-- 🔹 Librería Flatpickr -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Datos de Diagnóstico</h1>
+
+    <form id="formDiagnostico" onsubmit="return validarFormulario(event)">
+      <!-- Resultados médicos -->
+      <div class="form-group">
+        <label for="resultados">Resultados médicos:</label>
+        <div class="tag-container" id="listaResultados"></div>
+        <input type="text" id="resultados" placeholder="Escribe un resultado y presiona Enter">
+      </div>
+
+      <!-- Exámenes programados -->
+      <div class="form-group">
+        <label for="examenes">Exámenes programados:</label>
+        <div class="tag-container" id="listaExamenes"></div>
+        <input type="text" id="examenes" placeholder="Escribe un examen y presiona Enter">
+      </div>
+
+      <!-- Tratamiento / indicaciones -->
+      <div class="form-group">
+        <label for="tratamiento">Tratamiento / indicaciones:</label>
+        <div class="tag-container" id="listaTratamiento"></div>
+        <input type="text" id="tratamiento" placeholder="Escribe una indicación y presiona Enter">
+      </div>
+
+      <!-- Próxima cita -->
+      <div class="form-group">
+        <label for="fecha">Próxima cita:</label>
+        <input type="text" id="fecha" placeholder="Selecciona una fecha">
+      </div>
+
+      <button type="submit" class="btn-guardar">Guardar</button>
+    </form>
+  </div>
+
+  <script>
+    // 🔹 Crea listas dinámicas (tags)
+    function crearListaDinamica(inputId, listaId) {
+      const input = document.getElementById(inputId);
+      const lista = document.getElementById(listaId);
+
+      input.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' && input.value.trim() !== '') {
+          event.preventDefault();
+          const valor = input.value.trim();
+
+          const tag = document.createElement('div');
+          tag.className = 'tag';
+          tag.textContent = valor;
+
+          const close = document.createElement('span');
+          close.textContent = '×';
+          close.className = 'close';
+          close.onclick = () => tag.remove();
+
+          tag.appendChild(close);
+          lista.appendChild(tag);
+
+          input.value = '';
+        }
+      });
+    }
+
+    crearListaDinamica('resultados', 'listaResultados');
+    crearListaDinamica('examenes', 'listaExamenes');
+    crearListaDinamica('tratamiento', 'listaTratamiento');
+
+    // 🔹 Inicializar Flatpickr para calendario bonito
+    flatpickr("#fecha", {
+  enableTime: true,               // Activa selección de hora
+  time_24hr: true,                // Formato 24 horas (sin AM/PM)
+  dateFormat: "d/m/Y H:i",        // Formato interno (para guardar)
+  altInput: true,
+  altFormat: "l, d \\d\\e F \\d\\e Y - H:i", // Formato visual
+  locale: {
+    firstDayOfWeek: 1,
+    weekdays: {
+      shorthand: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+      longhand: [
+        'Domingo', 'Lunes', 'Martes', 'Miércoles',
+        'Jueves', 'Viernes', 'Sábado'
+      ]
+    },
+    months: {
+      shorthand: [
+        'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+        'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+      ],
+      longhand: [
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+      ]
+    }
+  },
+  minDate: "today",
+  disableMobile: true
+});
+
+    // 🔹 Validación del formulario
+    function validarFormulario(event) {
+      event.preventDefault();
+
+      const resultados = document.querySelectorAll('#listaResultados .tag').length;
+      const examenes = document.querySelectorAll('#listaExamenes .tag').length;
+      const tratamientos = document.querySelectorAll('#listaTratamiento .tag').length;
+      const fecha = document.getElementById('fecha').value;
+
+      if (resultados === 0 || examenes === 0 || tratamientos === 0) {
+        alert("⚠️ Debes agregar al menos un elemento en cada apartado (resultados, exámenes y tratamiento).");
+        return false;
+      }
+
+      if (!fecha) {
+        alert("⚠️ Debes seleccionar la fecha de la próxima cita.");
+        return false;
+      }
+
+      alert("✅ Datos de diagnóstico guardados correctamente.");
+      document.getElementById('formDiagnostico').reset();
+      document.querySelectorAll('.tag-container').forEach(div => div.innerHTML = '');
+    }
+  </script>
+</body>
+</html>

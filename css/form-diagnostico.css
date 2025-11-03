@@ -1,0 +1,131 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6f8;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  margin: 0;
+  padding: 30px 0;
+}
+
+.container {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  width: 420px;
+}
+
+h1 {
+  text-align: center;
+  color: #fa00bb;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+input[type="text"],
+input[type="date"] {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+input:focus {
+  border-color: #fa00bb;
+  box-shadow: 0 0 0 3px rgba(11,116,255,0.08);
+  outline: none;
+}
+
+/* 🔹 Lista dinámica */
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.tag {
+  background: #fa00bb;
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tag .close {
+  cursor: pointer;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* Botón */
+.btn-guardar {
+  display: block;
+  width: 100%;
+  background: #fa00bb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-guardar:hover {
+  background: #095fce;
+}
+
+/* 🔹 Flatpickr personalizado */
+.flatpickr-calendar {
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.flatpickr-months {
+  background-color: #f582c9;
+  color: white;
+  border-radius: 10px 10px 0 0;
+}
+
+.flatpickr-weekday {
+  color: #0b74ff;
+  font-weight: bold;
+}
+
+.flatpickr-day {
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.flatpickr-day:hover {
+  background-color: #0b74ff;
+  color: #fff;
+}
+
+.flatpickr-day.today {
+  border: 1px solid #0b74ff;
+}
+
+.flatpickr-day.selected {
+  background-color: #0b74ff;
+  color: white;
+  font-weight: bold;
+}
